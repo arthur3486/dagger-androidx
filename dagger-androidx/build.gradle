@@ -1,0 +1,54 @@
+apply plugin: "com.android.library"
+
+android {
+    compileSdkVersion rootProject.compileSdk
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdk
+        targetSdkVersion rootProject.targetSdk
+        versionCode rootProject.releaseVersionCode
+        versionName rootProject.releaseVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Core
+    implementation "androidx.appcompat:appcompat:${rootProject.supportLibraryVersion}"
+
+    // Dagger
+    annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.daggerVersion}"
+    implementation "com.google.dagger:dagger:${rootProject.daggerVersion}"
+    implementation "com.google.dagger:dagger-android:${rootProject.daggerVersion}"
+    implementation "com.google.dagger:dagger-android-support:${rootProject.daggerVersion}"
+
+    // Testing
+    testImplementation "junit:junit:${rootProject.jUnitVersion}"
+    androidTestImplementation "androidx.test:runner:${rootProject.testRunnerVersion}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.espressoVersion}"
+}
+
+ext {
+    releaseArtifact = "dagger-androidx"
+    releaseDescription = ""
+}
+
+project.archivesBaseName = "dagger-androidx"
+
+apply from: "../common/constants.gradle"
+apply from: "../gradle/script/publish.gradle"
